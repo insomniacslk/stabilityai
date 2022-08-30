@@ -1,0 +1,4 @@
+.*.swp
+*~
+cmd/gen/gen
+generation/
