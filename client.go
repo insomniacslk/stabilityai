@@ -44,7 +44,7 @@ func NewClient(opts ...Option) *Client {
 		ctx:    context.Background(),
 		host:   DefaultAPIHost,
 		engine: DefaultEngine,
-		log:    log.New(os.Stderr, "stabilityai", log.LstdFlags),
+		log:    log.New(os.Stderr, "stabilityai: ", log.LstdFlags),
 	}
 	for _, o := range opts {
 		o(&c)
@@ -74,6 +74,11 @@ func (c *Client) Connect() error {
 
 // Generate calls the Stability AI gRPC method Generate.
 func (c *Client) Generate(req *pb.Request) ([]*pb.Answer, error) {
+	if c.client == nil {
+		if err := c.Connect(); err != nil {
+			return nil, err
+		}
+	}
 	c.log.Printf("Request: %+v", req)
 	stream, err := c.client.Generate(c.ctx, req)
 	if err != nil {
