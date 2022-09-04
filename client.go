@@ -22,10 +22,11 @@ const (
 	DefaultEngine  = "stable-diffusion-v1"
 )
 
+// Default parameters for image generation.
 var (
-	defaultSteps    uint64  = 50
-	defaultSamples  uint64  = 1
-	defaultCfgScale float32 = 7.0
+	DefaultSteps    uint64  = 50
+	DefaultSamples  uint64  = 1
+	DefaultCfgScale float32 = 7.0
 )
 
 // Client is a Stability AI client.
@@ -118,8 +119,8 @@ func (c *Client) GenerateImage(text string, width, height uint64) ([]*pb.Answer,
 				Width:   &width,
 				Height:  &height,
 				Seed:    []uint32{uint32(seed)},
-				Steps:   &defaultSteps,
-				Samples: &defaultSamples,
+				Steps:   &DefaultSteps,
+				Samples: &DefaultSamples,
 				Transform: &pb.TransformType{
 					Type: &pb.TransformType_Diffusion{
 						Diffusion: pb.DiffusionSampler_SAMPLER_K_LMS,
@@ -128,7 +129,7 @@ func (c *Client) GenerateImage(text string, width, height uint64) ([]*pb.Answer,
 				Parameters: []*pb.StepParameter{
 					&pb.StepParameter{
 						Sampler: &pb.SamplerParameters{
-							CfgScale: &defaultCfgScale,
+							CfgScale: &DefaultCfgScale,
 						},
 					},
 				},
